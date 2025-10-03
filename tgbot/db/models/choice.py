@@ -13,6 +13,8 @@ class DBChoice(TimestampMixin, Base):
     __tablename__ = "choices"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    distribution_id: Mapped[int]
+    button_index: Mapped[int]
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey('users.id'))
 
     user: Mapped["DBUser"] = relationship("DBUser", back_populates="choices")

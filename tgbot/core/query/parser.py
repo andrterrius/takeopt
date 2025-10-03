@@ -3,6 +3,8 @@ from tgbot.config import DistributionConfig
 from tgbot.db.models import DistributionRange
 from tgbot.core.query.exceptions import DistributionException
 from dataclasses import dataclass
+from tgbot.misc.logger import logger
+
 
 
 @dataclass
@@ -56,4 +58,5 @@ class DistributionQueryParser:
                 return range_data  # возвращаем ошибку
 
             self.data = DistributionQueryData(range_data=self.parse_range(), count_choices=self.parse_count_choices())
+            logger.info(self.data)
         return self.data

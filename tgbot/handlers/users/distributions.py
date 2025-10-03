@@ -1,11 +1,11 @@
-from importlib.metadata import distribution
+import time
 
 from aiogram.types import InlineQuery, InlineQueryResultArticle, InputTextMessageContent, CallbackQuery
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 from aiogram import F, Router, Bot
 
 from tgbot.db.repositories.repository import Repository
-from tgbot.db.models import DBUser, DBDistribution
+from tgbot.db.models import DBUser, DBDistribution, DBChoice
 from tgbot.misc.logger import logger
 from tgbot.core.query.query import DistributionQuery
 from tgbot.core.query.exceptions import DistributionException
@@ -13,6 +13,8 @@ from tgbot.core.query.exceptions import DistributionException
 from tgbot.factory import callback
 
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from redis.asyncio import Redis
 
 divider_router = Router()
 divider_router.inline_query.filter(F.query)
@@ -63,7 +65,7 @@ async def inline_query(iq: InlineQuery, repo: Repository, bot: Bot) -> None:
 async def callbacks_create_distribution(call: CallbackQuery, callback_data: callback.CreateDistribution,
                                         repo: Repository, db_user: DBUser,
                                         session: AsyncSession):
-    distribution_query = DistributionQuery(call.data)
+    distribution_query = DistributionQuery(callback_data.query)
     distribution_data = distribution_query.parse_all_data()
 
     new_distribution = DBDistribution(creator_id=call.from_user.id, query=distribution_query.get_pretty_query(),
@@ -78,22 +80,80 @@ async def callbacks_create_distribution(call: CallbackQuery, callback_data: call
     for choice_index in range(distribution_data.range_data.start, distribution_data.range_data.end):
         builder.button(text=f"{choice_index} 🟢",
                        callback_data=callback.MakeChoice(distribution_id=created_distribution_id,
-                                                         choice_index=choice_index, is_free=True))
+                                                         choiced_index=choice_index))
     builder.adjust(3, repeat=True)
     await call.bot.edit_message_reply_markup(reply_markup=builder.as_markup(), inline_message_id=call.inline_message_id)
-    logger.info(builder.export())
 
 
 @divider_router.callback_query(callback.MakeChoice.filter())
 async def callbacks_make_choice(call: CallbackQuery, callback_data: callback.MakeChoice, repo: Repository,
-                                db_user: DBUser,
-                                session: AsyncSession):
-    logger.info(call)
+                                session: AsyncSession, redis: Redis):
+    user_id = call.from_user.id
+    distribution_id = callback_data.distribution_id
+    choiced_index = callback_data.choiced_index
+
+    user_key = f"distribution:user:{distribution_id}:{user_id}"
+    choice_key = f"distribution:choice:{distribution_id}:{choiced_index}"
+    limit_key = f"limit:distribution:{distribution_id}"
+
+    max_choices = await redis.get(limit_key)
+    info_distribution = None
+
+    if not max_choices:
+        info_distribution = await repo.distributions.get(distribution_id)
+        max_choices = info_distribution.count_choices
+        await redis.set(limit_key, max_choices, ex=300)
+    else:
+        max_choices = int(max_choices)
+
+    user_current_choices = int(await redis.get(user_key) or 0)
+    if user_current_choices >= max_choices:
+        return await call.answer(f"Вы уже выбрали вариант!", show_alert=True)
+
+    reservation = await redis.set(choice_key, user_id, ex=5, nx=True)
+
+    if reservation:
+        try:
+            await redis.set(user_key, choiced_index, ex=60)
+
+            if not info_distribution:
+                info_distribution = await repo.distributions.get(distribution_id)
+
+            new_choice = DBChoice(distribution_id=distribution_id, button_index=choiced_index, user_id=user_id)
+            await repo.choices.create(new_choice)
+
+            await call.answer(f"✅ Вы выбрали вариант {choiced_index}!", show_alert=True)
+            await redis.set(user_key, user_current_choices+1)
+
+            all_choices = await repo.choices.get_all_choices_indexes(distribution_id=distribution_id)
+            all_choices.add(choiced_index)
+            logger.info(info_distribution.query)
+
+            builder = InlineKeyboardBuilder()
+            for choice_index in range(info_distribution.range_data.start, info_distribution.range_data.end):
+                builder.button(text=f"{choice_index} " + ("🔴" if choice_index in all_choices else "🟢"),
+                               callback_data=callback.MakeChoice(distribution_id=distribution_id,
+                                                                 choiced_index=choice_index))
+
+            builder.adjust(3)
+            await call.bot.edit_message_reply_markup(reply_markup=builder.as_markup(), inline_message_id=call.inline_message_id)
+
+        except Exception as e:
+            await redis.delete(choice_key)
+            raise e
+        finally:
+            await session.commit()
+    else:
+        current_owner = await redis.get(choice_key)
+        if current_owner and current_owner == str(user_id):
+            await call.answer("Вы уже занимаете этот вариант!", show_alert=True)
+        else:
+            await call.answer("Кнопка временно занята, повторите через несколько секунд!", show_alert=True)
+
+    return
     await call.answer(str(callback_data), show_alert=True)
     info_distribution = await repo.distributions.get(callback_data.distribution_id)
     logger.info(info_distribution)
     logger.info(info_distribution.creator.username)
 
     logger.info(db_user.distributions)
-
-

@@ -14,3 +14,7 @@ class ChoiceRepository(SQLAlchemyRepository[DBChoice]):
     async def save_choice(self, choice: DBChoice) -> DBChoice:
         instance = await self.create(choice)
         return instance
+
+    async def get_all_choices_indexes(self, distribution_id) -> set[int]:
+        choices = await self.get_all(distribution_id=distribution_id)
+        return set(choice.button_index for choice in choices)

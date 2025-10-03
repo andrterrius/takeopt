@@ -1,3 +1,5 @@
+import json
+
 from sqlalchemy import JSON, BigInteger, ForeignKey
 from sqlalchemy.types import TypeDecorator
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -8,26 +10,40 @@ from tgbot.db.models.mixins import TimestampMixin
 
 from dataclasses import dataclass
 
-@dataclass
+
 class DistributionRange:
-    start: int
-    end: int
+    def __init__(self, start: int, end: int):
+        self.start = start
+        self.end = end
+
+    def to_dict(self):
+        return {'start': self.start, 'end': self.end}
+
+    @classmethod
+    def from_dict(cls, data):
+        return cls(start=data['start'], end=data['end'])
 
 
 class DistributionRangeType(TypeDecorator):
     impl = JSON
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
     def process_bind_param(self, value, dialect):
         if value is None:
             return None
         if isinstance(value, DistributionRange):
-            return {'start': value.start, 'end': value.end}
+            return value.to_dict()
         return value
 
     def process_result_value(self, value, dialect):
         if value is None:
             return None
-        return DistributionRange(start=value['start'], end=value['end'])
+        if isinstance(value, str):
+            value = json.loads(value)
+        return DistributionRange.from_dict(value)
+
 
 class DBDistribution(TimestampMixin, Base):
     __tablename__ = "distributions"
