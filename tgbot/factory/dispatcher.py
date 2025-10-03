@@ -23,11 +23,11 @@ if TYPE_CHECKING:
 
 
 def _setup_outer_middlewares(dispatcher: Dispatcher, config: Config) -> None:
-    pool = dispatcher["session_pool"] = create_pool(
+    session_pool = dispatcher["session_pool"] = create_pool(
         dsn=config.postgres.build_dsn(),
         enable_logging=config.postgres.enable_logging,
     )
-    dispatcher.update.outer_middleware(DBSessionMiddleware(session_pool=pool))
+    dispatcher.update.outer_middleware(DBSessionMiddleware(session_pool=session_pool))
     dispatcher.update.outer_middleware(DBUserMiddleware())
 
 
@@ -43,18 +43,21 @@ async def create_dispatcher(config: Config) -> Dispatcher:
     storage: BaseStorage
     if config.redis.use_redis:
         storage = RedisStorage(
-            Redis(
+            redis=Redis(
                 host=config.redis.host,
                 port=config.redis.port,
                 password=config.redis.password,
+                decode_responses=True
             ),
         )
     else:
         storage = MemoryStorage()
 
+
     dispatcher: Dispatcher = Dispatcher(
         name="main_dispatcher",
         storage=storage,
+        redis=storage.redis,
         config=config,
     )
     _setup_outer_middlewares(dispatcher=dispatcher, config=config)
