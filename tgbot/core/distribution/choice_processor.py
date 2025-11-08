@@ -66,6 +66,8 @@ class ChoiceProcessor(IChoiceProcessor):
         except Exception as e:
             await self._repo.choices.rollback()
 
+            await self._throttling.unreserve_choice(self._choice_key)
+
             process_ready_deletion = await self._exception_processing_ready_deletion()
             if process_ready_deletion:
                 return process_ready_deletion
@@ -80,9 +82,9 @@ class ChoiceProcessor(IChoiceProcessor):
         if self._is_ready_deletion:
             user_choice = await self._check_user_choice()
 
+            await self._throttling.unthrottle_requests(self._user_lock_key)
+
             if user_choice:
-                await self._throttling.unthrottle_requests(self._user_lock_key)
-                await self._throttling.unreserve_choice(self._choice_key)
                 return ProcessingStatus.PREPARED
             else:
                 await self._remove_recent_cache()
