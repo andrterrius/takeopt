@@ -50,6 +50,7 @@ class ChoiceProcessor(IChoiceProcessor):
                 raise ThrottlingChoiceException(_("Этот вариант обрабатывается, попробуй еще через несколько секунд!"))
 
             if await self._recent_request_for_cancel():
+                await self._remove_recent_cache()
                 await self._cancel_user_choice()
 
                 return ProcessingStatus.CANCELED
@@ -73,7 +74,13 @@ class ChoiceProcessor(IChoiceProcessor):
                 return process_ready_deletion
             raise
 
-    async def update_user_choices(self) -> None:
+    async def update_after_success(self):
+        """Обновление кэша после успешного выбора варианта
+        """
+        await self._update_user_choices()
+        await self._remove_recent_cache()
+
+    async def _update_user_choices(self) -> None:
         """Обновление количества выборов пользователя в кэше"""
         await self._cache.set(self._user_key, str(self._user_current_choices + 1), ex=300)
 

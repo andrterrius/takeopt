@@ -64,7 +64,7 @@ async def callbacks_make_choice(call: CallbackQuery, callback_data: callback_fac
         process_status = await choice_processor.start_processing()
         if process_status is ProcessingStatus.CHOICED:
             await call.answer(_("✅ Ты успешно ВЫБРАЛ вариант {choiced_index}!").format(choiced_index=choiced_index), show_alert=True)
-            await choice_processor.update_user_choices()
+            await choice_processor.update_after_success()
         elif process_status is ProcessingStatus.CANCELED:
             await call.answer(_("✅ Ты успешно ОТМЕНИЛ выбор вариант {choiced_index}!").format(choiced_index=choiced_index), show_alert=True)
             choiced_index = None

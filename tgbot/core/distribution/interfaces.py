@@ -93,5 +93,5 @@ class IChoiceProcessor(ABC):
         pass
 
     @abstractmethod
-    async def update_user_choices(self) -> None:
+    async def update_after_success(self) -> None:
         pass
