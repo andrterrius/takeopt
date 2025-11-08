@@ -69,7 +69,7 @@ async def callbacks_make_choice(call: CallbackQuery, callback_data: callback_fac
             await call.answer(_("✅ Ты успешно ОТМЕНИЛ выбор вариант {choiced_index}!").format(choiced_index=choiced_index), show_alert=True)
             choiced_index = None
         elif process_status is ProcessingStatus.PREPARED:
-            await call.answer(_("⚠️ Для отмены {choiced_index} варианта нажми на кнопку еще раз в течение 5 секунд!").format(choiced_index=choiced_index), show_alert=True)
+            await call.answer(_("⚠️ Для отмены {choiced_index} варианта нажми на эту же кнопку еще раз!").format(choiced_index=choiced_index), show_alert=True)
 
         await session.commit()
 
@@ -104,5 +104,5 @@ async def callbacks_get_list_choices(call: CallbackQuery, callback_data: callbac
 async def callbacks_get_help(call: CallbackQuery):
     return await call.answer(_("Для выбора варианта жми 🟢\n"
                                "\n🟢 - свободный вариант"
-                               "\n🔴 - занятый вариант (для отмены нужно в течение 5 секунд нажать 2 раза на свой занятый вариант)"
+                               "\n🔴 - занятый вариант (для отмены своего занятого варианта нужно 2 раза нажать на свой вариант)"
                                "\n📄 - список занятых вариантов"), show_alert=True)

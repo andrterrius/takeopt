@@ -92,7 +92,7 @@ class ChoiceProcessor(IChoiceProcessor):
 
     async def _update_recent_cache(self) -> bool:
         """Обновление кэша последнего выбора"""
-        return await self._cache.set(self._user_recent_choice_key, str(self._choiced_index), ex=5)
+        return await self._cache.set(self._user_recent_choice_key, str(self._choiced_index), ex=3600)
 
     async def _remove_recent_cache(self) -> None:
         """Удаление кэша последнего выбора"""
