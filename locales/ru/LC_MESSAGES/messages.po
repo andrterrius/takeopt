@@ -1,0 +1,212 @@
+# Russian translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-11-08 15:03+0300\n"
+"PO-Revision-Date: 2025-11-06 19:07+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru\n"
+"Language-Team: ru <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: tgbot/core/distribution/choice_processor.py:50
+msgid "Этот вариант обрабатывается, попробуй еще через несколько секунд!"
+msgstr ""
+
+#: tgbot/core/distribution/choice_processor.py:125
+#: tgbot/core/distribution/services/throttling_service.py:21
+msgid "Подожди, не так быстро, обрабатывается твой предыдущий запрос..."
+msgstr ""
+
+#: tgbot/core/distribution/services/limit_service.py:30
+msgid "Ты уже выбрал допустимое количество вариантов!"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:16
+msgid "❌ Произошла ошибка!"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:28
+msgid "❓ Краткая справка по использованию бота"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:29
+msgid ""
+"Для создания распределения нужно ввести в строку запроса x y +z, где x "
+"это начало диапазона, а y - конец"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:37
+msgid "ㅤ"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:39
+msgid ""
+"z по умолчанию - это 1 и ее можно не вводить, значит, что по умолчанию "
+"можно будет выбрать только 1 вариант"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:47
+msgid "Пример создания простого распределения"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:48
+#, python-brace-format
+msgid ""
+"{bot_username} 1 50 - такой ввод создаст распределение вариантов от 1 до "
+"50, где можно выбрать только 1"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:56
+msgid "Пример создания распределения с несколькими выборами"
+msgstr ""
+
+#: tgbot/core/query/help_article.py:58
+#, python-brace-format
+msgid ""
+"{bot_username} 10 50 +2 - такой ввод создаст распределение вариантов от "
+"10 до 50, где можно выбрать уже 2 варианта"
+msgstr ""
+
+#: tgbot/core/query/parser.py:35
+msgid "начальное значение диапазона x должно быть меньше конечного y"
+msgstr ""
+
+#: tgbot/core/query/parser.py:37
+#, python-brace-format
+msgid "максимальное количество выборов - {max_choices}"
+msgstr ""
+
+#: tgbot/core/query/parser.py:57
+#, python-brace-format
+msgid ""
+"количество выборов (+{count_choices}) не может превышать размер диапазона"
+" ({range_size})"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:46
+msgid "❓- основная информация"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:66
+#, python-brace-format
+msgid "✅ Ты успешно ВЫБРАЛ вариант {choiced_index}!"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:69
+#, python-brace-format
+msgid "✅ Ты успешно ОТМЕНИЛ выбор вариант {choiced_index}!"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:72
+#, python-brace-format
+msgid ""
+"⚠️ Для отмены {choiced_index} варианта нажми на кнопку еще раз в течение "
+"5 секунд!"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:80
+msgid "❌ Этот вариант уже занят!"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:85
+msgid "Произошла ошибка!"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:94
+msgid "Еще никто не выбрал варианты"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:105
+msgid ""
+"Для выбора варианта жми 🟢\n"
+"\n"
+"🟢 - свободный вариант\n"
+"🔴 - занятый вариант (для отмены нужно в течение 5 секунд нажать 2 раза на"
+" свой занятый вариант)\n"
+"📄 - список занятых вариантов"
+msgstr ""
+
+#: tgbot/handlers/users/query.py:27
+msgid "Запустить распределение ✅"
+msgstr ""
+
+#: tgbot/handlers/users/query.py:33
+msgid "✅ Создать распределение вариантов (жми)"
+msgstr ""
+
+#: tgbot/handlers/users/query.py:34
+#, python-brace-format
+msgid ""
+"Диапазон вариантов: {range_start} - {range_end} (включительно)\n"
+"У каждого будет возможность выбора {count_choices} вариантов"
+msgstr ""
+
+#: tgbot/handlers/users/query.py:42
+#, python-brace-format
+msgid ""
+"Распределение {count_options} вариантов с возможностью выбора "
+"{count_choices} вариантов"
+msgstr ""
+
+#: tgbot/handlers/users/user.py:26
+msgid "Выбрать чат"
+msgstr ""
+
+#: tgbot/handlers/users/user.py:30
+#, python-brace-format
+msgid ""
+"Привет, бот работает в инлайн режиме. Для использования пропиши "
+"{bot_username} в любом чате/канале или нажми на кнопку ниже"
+msgstr ""
+
+#~ msgid "создание распределения вариантов"
+#~ msgstr ""
+
+#~ msgid "Для запуска распределения жми Запустить ✅"
+#~ msgstr ""
+
+#~ msgid "Запустить ✅"
+#~ msgstr ""
+
+#~ msgid "Создать распределение вариантов (жми)"
+#~ msgstr ""
+
+#~ msgid "Для справки жми ❓"
+#~ msgstr ""
+
+#~ msgid "@take_opt_bot"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "@take_opt_bot 1 50 - такой ввод "
+#~ "создаст распределение вариантов от 1 до"
+#~ " 50, где можно выбрать только 1"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "@take_opt_bot 10 50 +2 - такой "
+#~ "ввод создаст распределение вариантов от "
+#~ "10 до 50, где можно выбрать уже"
+#~ " 2 варианта"
+#~ msgstr ""
+
+#~ msgid "максимальное количество выборов - {max_votes}"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Привет, бот работает в инлайн режиме."
+#~ " Для использования пропиши @take_opt_bot в"
+#~ " любом чате/канале"
+#~ msgstr ""
+
