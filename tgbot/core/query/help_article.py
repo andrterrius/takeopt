@@ -26,7 +26,7 @@ async def get_help_articles(bot: Bot, exception_text=""):
         InlineQueryResultArticle(
         id="help",
         title=_("❓ Краткая справка по использованию бота"),
-        description=_("Для создания распределения нужно ввести в строку запроса x y +z, где x это начало диапазона, а y - конец"),
+        description=_("Для создания распределения нужно ввести в строку запроса x y +z,"),
         input_message_content=InputTextMessageContent(
             message_text=bot_username,
             parse_mode="HTML",
@@ -35,8 +35,37 @@ async def get_help_articles(bot: Bot, exception_text=""):
         InlineQueryResultArticle(
             id="help_2",
             title=_("ㅤ"),
+            description=_("где x это начало диапазона, y - конец"),
+            input_message_content=InputTextMessageContent(
+                message_text=bot_username,
+                parse_mode="HTML",
+            )
+        ),
+        InlineQueryResultArticle(
+            id="help_3",
+            title=_("ㅤ"),
             description=_(
-                "z по умолчанию - это 1 и ее можно не вводить, значит, что по умолчанию можно будет выбрать только 1 вариант"),
+                "z - количество доступных выборов для 1 человека"),
+            input_message_content=InputTextMessageContent(
+                message_text=bot_username,
+                parse_mode="HTML",
+            )
+        ),
+        InlineQueryResultArticle(
+            id="help_4",
+            title=_("ㅤ"),
+            description=_(
+                "z по умолчанию - это 1 и ее можно не вводить это значит"),
+            input_message_content=InputTextMessageContent(
+                message_text=bot_username,
+                parse_mode="HTML",
+            )
+        ),
+        InlineQueryResultArticle(
+            id="help_5",
+            title=_("ㅤ"),
+            description=_(
+                "что по умолчанию можно будет выбрать только 1 вариант"),
             input_message_content=InputTextMessageContent(
                 message_text=bot_username,
                 parse_mode="HTML",
