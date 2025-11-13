@@ -26,7 +26,7 @@ async def get_help_articles(bot: Bot, exception_text=""):
         InlineQueryResultArticle(
         id="help",
         title=_("❓ Краткая справка по использованию бота"),
-        description=_("Для создания распределения нужно ввести в строку запроса x y +z,"),
+        description=_("Для создания распределения нужно ввести в строку запроса число вариантов или x y +z,"),
         input_message_content=InputTextMessageContent(
             message_text=bot_username,
             parse_mode="HTML",
@@ -74,7 +74,7 @@ async def get_help_articles(bot: Bot, exception_text=""):
         InlineQueryResultArticle(
             id="help_example_1",
             title=_("Пример создания простого распределения"),
-            description=_("{bot_username} 1 50 - такой ввод создаст распределение вариантов от 1 до 50, где можно выбрать только 1").format(bot_username=bot_username),
+            description=_("{bot_username} 50 - создаст распределение вариантов от 1 до 50, где можно выбрать только 1").format(bot_username=bot_username),
             input_message_content=InputTextMessageContent(
                 message_text=bot_username,
                 parse_mode="HTML",
@@ -82,9 +82,20 @@ async def get_help_articles(bot: Bot, exception_text=""):
         ),
         InlineQueryResultArticle(
             id="help_example_2",
+            title=_("Пример создания распределения по диапазону"),
+            description=_(
+                "{bot_username} 1 50 - создаст распределение вариантов от 1 до 50, где можно выбрать только 1").format(
+                bot_username=bot_username),
+            input_message_content=InputTextMessageContent(
+                message_text=bot_username,
+                parse_mode="HTML",
+            )
+        ),
+        InlineQueryResultArticle(
+            id="help_example_3",
             title=_("Пример создания распределения с несколькими выборами"),
             description=_(
-                "{bot_username} 10 50 +2 - такой ввод создаст распределение вариантов от 10 до 50, "
+                "{bot_username} 10 50 +2 - создаст распределение вариантов от 10 до 50, "
                 "где можно выбрать уже 2 варианта").format(bot_username=bot_username),
             input_message_content=InputTextMessageContent(
                 message_text=bot_username,

@@ -25,15 +25,21 @@ class DistributionQueryParser:
         self._config = DistributionConfig()
 
     def parse_range(self) -> DistributionRange:
-        range_search = self.RANGE_PATTERN.search(self.query_text)
-        if not range_search:
-            raise DistributionParserException()
-        range_group_dict = range_search.groupdict()
-        start = int(range_group_dict['start'])
-        end = int(range_group_dict['end'])
+        if self.query_text.isdigit():
+            start = 1
+            end = int(self.query_text)
+            if end == 1:
+                raise DistributionParserException(_("количество вариантов должно быть больше 1"))
+        else:
+            range_search = self.RANGE_PATTERN.search(self.query_text)
+            if not range_search:
+                raise DistributionParserException()
+            range_group_dict = range_search.groupdict()
+            start = int(range_group_dict['start'])
+            end = int(range_group_dict['end'])
         if start >= end:
             raise DistributionParserException(_("начальное значение диапазона x должно быть меньше конечного y"))
-        if end - start > self._config.max_choices:
+        if end - start + 1 > self._config.max_choices:
             raise DistributionParserException(_("максимальное количество выборов - {max_choices}").format(max_choices=self._config.max_choices))
 
         return DistributionRange(start=start, end=end)
