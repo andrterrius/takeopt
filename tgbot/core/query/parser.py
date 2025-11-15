@@ -17,30 +17,40 @@ class DistributionQueryData:
 
 
 class DistributionQueryParser:
-    RANGE_PATTERN: Pattern = re.compile(r"(?P<start>\d+)\s*(?:-|,|\s)\s*(?P<end>\d+)")
-    COUNT_CHOICES_PATTERN: Pattern = re.compile(r"(?<!\S)\+\s*(\d+)(?!\S)")
+    RANGE_PATTERN: Pattern = re.compile(
+        r"(?:(?P<start>\d+)\s*[-,\s]\s*(?P<end>\d+))|"
+        r"(?:^\s*(?P<single_end>\d+)\s*(?:\+.*)?$)"
+    )
+    COUNT_CHOICES_PATTERN: Pattern = re.compile(r"\+\s*(\d+)")
 
     def __init__(self, query_text: str):
-        self.query_text = query_text
+        self.query_text = query_text.strip()
         self._config = DistributionConfig()
 
     def parse_range(self) -> DistributionRange:
-        if self.query_text.isdigit():
-            start = 1
-            end = int(self.query_text)
-            if end == 1:
-                raise DistributionParserException(_("количество вариантов должно быть больше 1"))
+        match = self.RANGE_PATTERN.search(self.query_text)
+        if not match:
+            raise DistributionParserException()
+
+        groups = match.groupdict()
+
+        if groups['single_end']:
+            start, end = 1, int(groups['single_end'])
         else:
-            range_search = self.RANGE_PATTERN.search(self.query_text)
-            if not range_search:
-                raise DistributionParserException()
-            range_group_dict = range_search.groupdict()
-            start = int(range_group_dict['start'])
-            end = int(range_group_dict['end'])
+            start, end = int(groups['start']), int(groups['end'])
+
+        if end == 1:
+            raise DistributionParserException(_("количество вариантов должно быть больше 1"))
         if start >= end:
             raise DistributionParserException(_("начальное значение диапазона x должно быть меньше конечного y"))
-        if end - start + 1 > self._config.max_choices:
-            raise DistributionParserException(_("максимальное количество выборов - {max_choices}").format(max_choices=self._config.max_choices))
+
+        range_size = end - start + 1
+        if range_size > self._config.max_choices:
+            raise DistributionParserException(
+                _("максимальное количество выборов - {max_choices}").format(
+                    max_choices=self._config.max_choices
+                )
+            )
 
         return DistributionRange(start=start, end=end)
 
