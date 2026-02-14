@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-11-13 18:51+0300\n"
+"POT-Creation-Date: 2026-02-15 01:19+0300\n"
 "PO-Revision-Date: 2025-11-06 19:07+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -100,64 +100,85 @@ msgid ""
 "где можно выбрать уже 2 варианта"
 msgstr ""
 
-#: tgbot/core/query/parser.py:32
+#: tgbot/core/query/parser.py:43
 msgid "количество вариантов должно быть больше 1"
 msgstr ""
 
-#: tgbot/core/query/parser.py:41
+#: tgbot/core/query/parser.py:45
 msgid "начальное значение диапазона x должно быть меньше конечного y"
 msgstr ""
 
-#: tgbot/core/query/parser.py:43
+#: tgbot/core/query/parser.py:50
 #, python-brace-format
 msgid "максимальное количество выборов - {max_choices}"
 msgstr ""
 
-#: tgbot/core/query/parser.py:63
+#: tgbot/core/query/parser.py:73
 #, python-brace-format
 msgid ""
 "количество выборов (+{count_choices}) не может превышать размер диапазона"
 " ({range_size})"
 msgstr ""
 
-#: tgbot/handlers/users/distributions.py:46
+#: tgbot/handlers/users/distributions.py:43
+msgid "Еще никто не выбрал варианты"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:45
+msgid "Список занятых вариантов:"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:52
+msgid "Это распределение вариантов не найдено"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:54
+msgid "Произошла ошибка при поиске распределения вариантов!"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:74
 msgid "❓- основная информация"
 msgstr ""
 
-#: tgbot/handlers/users/distributions.py:66
+#: tgbot/handlers/users/distributions.py:94
 #, python-brace-format
 msgid "✅ Ты успешно ВЫБРАЛ вариант {choiced_index}!"
 msgstr ""
 
-#: tgbot/handlers/users/distributions.py:69
+#: tgbot/handlers/users/distributions.py:97
 #, python-brace-format
 msgid "✅ Ты успешно ОТМЕНИЛ выбор вариант {choiced_index}!"
 msgstr ""
 
-#: tgbot/handlers/users/distributions.py:72
+#: tgbot/handlers/users/distributions.py:100
 #, python-brace-format
 msgid "⚠️ Для отмены {choiced_index} варианта нажми на эту же кнопку еще раз!"
 msgstr ""
 
-#: tgbot/handlers/users/distributions.py:80
+#: tgbot/handlers/users/distributions.py:110
 msgid "❌ Этот вариант уже занят!"
 msgstr ""
 
-#: tgbot/handlers/users/distributions.py:85
+#: tgbot/handlers/users/distributions.py:115
 msgid "Произошла ошибка!"
 msgstr ""
 
-#: tgbot/handlers/users/distributions.py:94
-msgid "Еще никто не выбрал варианты"
+#: tgbot/handlers/users/distributions.py:124
+msgid "Ты еще не выбрал варианты"
 msgstr ""
 
-#: tgbot/handlers/users/distributions.py:105
+#: tgbot/handlers/users/distributions.py:126
+msgid "Ты выбрал:"
+msgstr ""
+
+#: tgbot/handlers/users/distributions.py:134
 msgid ""
 "Для выбора варианта жми 🟢\n"
 "\n"
 "🟢 - свободный вариант\n"
 "🔴 - занятый вариант (для отмены своего занятого варианта нужно 2 раза "
 "нажать на свой вариант)\n"
+"👤 - список твоих вариантов\n"
 "📄 - список занятых вариантов"
 msgstr ""
 
@@ -278,5 +299,15 @@ msgstr ""
 #~ "ввод создаст распределение вариантов от "
 #~ "10 до 50, где можно выбрать уже"
 #~ " 2 варианта"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Для выбора варианта жми 🟢\n"
+#~ "\n"
+#~ "🟢 - свободный вариант\n"
+#~ "🔴 - занятый вариант (для отмены "
+#~ "своего занятого варианта нужно 2 раза"
+#~ " нажать на свой вариант)\n"
+#~ "📄 - список занятых вариантов"
 #~ msgstr ""
 

@@ -40,6 +40,7 @@ A Telegram bot for convenient distribution of variants, project topics, and assi
     COMMON_ADMINS=[<admin1_uid>, <admin2_uid>]
     POSTGRES_HOST=<your postgres-ip or postgres-domain>
     POSTGRES_PORT=5432
+    POSTGRES_EXTERNAL_PORT=5432
     POSTGRES_USER=user
     POSTGRES_PASSWORD=<your-postgres-password>
     POSTGRES_DB=tgbot
@@ -49,7 +50,7 @@ A Telegram bot for convenient distribution of variants, project topics, and assi
     REDIS_PASSWORD=<your redis-password>
     REDIS_USE_REDIS=True
     
-    DISTRIBUTION_MAX_CHOICES=98
+    DISTRIBUTION_MAX_CHOICES=97
    ```
 
 4. **Build and start the project**

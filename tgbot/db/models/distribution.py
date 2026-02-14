@@ -1,8 +1,12 @@
 import json
+import uuid as uuid_pkg
 
+from sqlalchemy import text
 from sqlalchemy import JSON, BigInteger, ForeignKey
 from sqlalchemy.types import TypeDecorator
 from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.dialects.postgresql import UUID as PG_UUID
+
 
 
 from tgbot.db.models import Base
@@ -49,6 +53,13 @@ class DBDistribution(TimestampMixin, Base):
     __tablename__ = "distributions"
 
     id: Mapped[int] = mapped_column(BigInteger, primary_key=True, autoincrement=True)
+    uuid: Mapped[uuid_pkg.UUID] = mapped_column(
+        PG_UUID(as_uuid=True),
+        unique=True,
+        nullable=False,
+        default=uuid_pkg.uuid4,
+        server_default=text("gen_random_uuid()")
+    )
     creator_id: Mapped[int] = mapped_column(BigInteger, ForeignKey('users.id'))
     query: Mapped[str]
     range_data: Mapped[DistributionRange] = mapped_column(DistributionRangeType)

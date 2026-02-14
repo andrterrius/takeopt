@@ -45,7 +45,7 @@ def _setup_inner_middlewares(dispatcher: Dispatcher) -> None:
 
 
 def _setup_routers(dispatcher: Dispatcher) -> None:
-    dispatcher.include_routers(admin_router, user_router, distributions_router, query_router)
+    dispatcher.include_routers(admin_router, distributions_router, user_router, query_router)
 
 
 async def create_dispatcher(config: Config) -> Dispatcher:

@@ -33,20 +33,21 @@
 
 3. **Установите свои переменные окружения в файле .env**
    ```
-    COMMON_BOT_TOKEN=<your-token>
+    COMMON_BOT_TOKEN=<твой-токен>
     COMMON_ADMINS=[<admin1_uid>, <admin2_uid>]
-    POSTGRES_HOST=<your postgres-ip or postgres-domain>
+    POSTGRES_HOST=<твой postgres-ip или postgres-domain>
     POSTGRES_PORT=5432
+    POSTGRES_EXTERNAL_PORT=5432
     POSTGRES_USER=user
-    POSTGRES_PASSWORD=<your-postgres-password>
+    POSTGRES_PASSWORD=<твой-postgres-пароль>
     POSTGRES_DB=tgbot
     
-    REDIS_HOST=<your redis-ip or redis-domain>
+    REDIS_HOST=<твой redis-ip или redis-domain>
     REDIS_PORT=6379
-    REDIS_PASSWORD=<your redis-password>
+    REDIS_PASSWORD=<твой redis-пароль>
     REDIS_USE_REDIS=True
     
-    DISTRIBUTION_MAX_CHOICES=98
+    DISTRIBUTION_MAX_CHOICES=97
    ```
 
 4. **Запустите сборку проекта**

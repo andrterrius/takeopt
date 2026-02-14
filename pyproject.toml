@@ -19,6 +19,7 @@ sqlalchemy = "^2.0.31"
 asyncpg = "^0.30.0"
 alembic = "^1.13.2"
 babel = "^2.17.0"
+uuid = "^1.30"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.10.1"

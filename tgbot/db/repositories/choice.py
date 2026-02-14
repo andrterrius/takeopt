@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from sqlalchemy import asc, update, select, func, Sequence
 from sqlalchemy.ext.asyncio import AsyncSession
 from tgbot.misc.logger import logger
@@ -32,6 +34,10 @@ class ChoiceRepository(SQLAlchemyRepository[DBChoice]):
 
     async def get_all_choices_by_distribution_id(self, distribution_id: int) -> Sequence[DBChoice]:
         choices = await self.get_all(distribution_id=distribution_id, active=True, order_by=asc(self.model.button_index))
+        return choices
+
+    async def get_user_choices_by_distribution_id(self, distribution_id: int, user_id: int) -> Sequence[DBChoice]:
+        choices = await self.get_all(distribution_id=distribution_id, user_id=user_id, active=True, order_by=asc(self.model.button_index))
         return choices
 
     async def get_all_choices_indexes(self, distribution_id: int) -> set[int]:

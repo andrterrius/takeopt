@@ -42,6 +42,7 @@ class DistributionKeyboardUpdater:
             call: CallbackQuery,
             repo: Repository,
             distribution_id: int,
+            distribution_deeplink: str,
             choiced_index: int = None,
             text: str = None,
             retry_count: int = 0
@@ -60,6 +61,7 @@ class DistributionKeyboardUpdater:
 
                 keyboard = cls._build_keyboard(
                     distribution_id=distribution_id,
+                    distribution_deeplink=distribution_deeplink,
                     choices=current_choices,
                     range_start=info_distribution.range_data.start,
                     range_end=info_distribution.range_data.end,
@@ -97,6 +99,7 @@ class DistributionKeyboardUpdater:
     @staticmethod
     def _build_keyboard(
             distribution_id: int,
+            distribution_deeplink: str,
             choices: set[int],
             range_start: int,
             range_end: int,
@@ -109,8 +112,12 @@ class DistributionKeyboardUpdater:
 
         auxiliary_buttons = [
             InlineKeyboardButton(text="❓", callback_data=callback_factory.GetHelp().pack()),
-            InlineKeyboardButton(text="📄", callback_data=callback_factory.GetDistributionChoices(distribution_id=distribution_id).pack())
+            InlineKeyboardButton(text="👤", callback_data=callback_factory.GetMyDistributionChoices(
+                distribution_id=distribution_id).pack()),
+            InlineKeyboardButton(text="📄", url=distribution_deeplink)
         ]
+
+
 
         builder.row(*auxiliary_buttons)
 

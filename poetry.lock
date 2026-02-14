@@ -1443,6 +1443,17 @@ files = [
 typing-extensions = ">=4.12.0"
 
 [[package]]
+name = "uuid"
+version = "1.30"
+description = "UUID object and generation functions (Python 2.3 or higher)"
+optional = false
+python-versions = "*"
+groups = ["main"]
+files = [
+    {file = "uuid-1.30.tar.gz", hash = "sha256:1f87cc004ac5120466f36c5beae48b4c48cc411968eed0eaecd3da82aa96193f"},
+]
+
+[[package]]
 name = "yarl"
 version = "1.22.0"
 description = "Yet another URL library"
@@ -1590,4 +1601,4 @@ propcache = ">=0.2.1"
 [metadata]
 lock-version = "2.1"
 python-versions = "^3.12"
-content-hash = "bc8bfe9341c6463c3d9fde9655b3e32f87682c1067630c1281d72b35c5750417"
+content-hash = "bff01bfd34beb61866e437b3d28f6a921413c2ee8df041e20f13f0d41102db18"
