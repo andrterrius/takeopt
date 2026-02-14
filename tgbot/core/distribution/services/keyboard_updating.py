@@ -112,9 +112,9 @@ class DistributionKeyboardUpdater:
 
         auxiliary_buttons = [
             InlineKeyboardButton(text="❓", callback_data=callback_factory.GetHelp().pack()),
+            InlineKeyboardButton(text="📄", url=distribution_deeplink),
             InlineKeyboardButton(text="👤", callback_data=callback_factory.GetMyDistributionChoices(
-                distribution_id=distribution_id).pack()),
-            InlineKeyboardButton(text="📄", url=distribution_deeplink)
+                distribution_id=distribution_id).pack())
         ]
 
 
