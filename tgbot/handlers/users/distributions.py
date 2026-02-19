@@ -13,15 +13,15 @@ from tgbot.misc.logger import logger
 from tgbot.misc import callback_factory
 from tgbot.misc.telegram_utils import get_telegram_username
 
-from tgbot.core.query.query import DistributionQuery
-from tgbot.core.distribution.services.keyboard_updating import DistributionKeyboardUpdater as kb_updater
+from tgbot.query import DistributionQuery
+from tgbot.distribution.services import DistributionKeyboardUpdater
 
-from tgbot.core.distribution.interfaces import ProcessingStatus
-from tgbot.core.distribution.exceptions import ThrottlingChoiceException, LimitChoiceException, CancelChoiceException
+from tgbot.distribution import ProcessingStatus
+from tgbot.distribution.exceptions import ThrottlingChoiceException, LimitChoiceException, CancelChoiceException
 
 from sqlalchemy.exc import IntegrityError, PendingRollbackError
 
-from tgbot.factory.choice_processor_factory import ChoiceProcessorFactory
+from tgbot.factory.choice_processor import ChoiceProcessorFactory
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -71,7 +71,7 @@ async def callbacks_create_distribution(call: CallbackQuery, callback_data: call
 
     async with session.begin():
         distribution_deeplink = await create_start_link(call.bot, created_distribution_uuid)
-        await kb_updater.update_distribution_keyboard(call, repo, created_distribution_id, distribution_deeplink, text=_("❓- основная информация"))
+        await DistributionKeyboardUpdater.update_distribution_keyboard(call, repo, created_distribution_id, distribution_deeplink, text=_("❓- основная информация"))
 
 @distributions_router.callback_query(callback_factory.MakeChoice.filter())
 async def callbacks_make_choice(call: CallbackQuery, callback_data: callback_factory.MakeChoice, repo: Repository,
@@ -104,7 +104,7 @@ async def callbacks_make_choice(call: CallbackQuery, callback_data: callback_fac
         async with session.begin():
             distribution_uuid = await repo.distributions.get_uui_by_id(distribution_id)
             distribution_deeplink = await create_start_link(call.bot, distribution_uuid)
-            await kb_updater.update_distribution_keyboard(call, repo, distribution_id, distribution_deeplink,
+            await DistributionKeyboardUpdater.update_distribution_keyboard(call, repo, distribution_id, distribution_deeplink,
                                                           choiced_index)
     except (IntegrityError, PendingRollbackError):
         await call.answer(_("❌ Этот вариант уже занят!"), show_alert=True)

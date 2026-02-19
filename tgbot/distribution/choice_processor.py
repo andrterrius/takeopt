@@ -1,10 +1,9 @@
 from typing import Optional
-from tgbot.misc.logger import logger
 from aiogram.utils.i18n import gettext as _
 
 
-from tgbot.core.distribution.interfaces import ProcessingStatus, ICacheService, IThrottlingService, ILimitService, IChoiceProcessor
-from tgbot.core.distribution.exceptions import ThrottlingChoiceException, CancelChoiceException
+from tgbot.distribution.interfaces import ProcessingStatus, ICacheService, IThrottlingService, ILimitService, IChoiceProcessor
+from tgbot.distribution.exceptions import ThrottlingChoiceException, CancelChoiceException
 from tgbot.db.repositories.repository import Repository
 
 class ChoiceProcessor(IChoiceProcessor):

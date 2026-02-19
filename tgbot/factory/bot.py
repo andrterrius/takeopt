@@ -5,7 +5,7 @@ from aiogram.types import BotCommand
 
 from tgbot.misc.logger import logger
 
-from tgbot.config import Config
+from tgbot.core.config import Config
 
 
 async def _set_default_commands(bot: Bot) -> None:

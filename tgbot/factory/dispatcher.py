@@ -24,7 +24,7 @@ from tgbot.middlewares.outer import DBSessionMiddleware, DBUserMiddleware
 if TYPE_CHECKING:
     from aiogram.fsm.storage.base import BaseStorage
 
-    from tgbot.config import Config
+    from tgbot.core.config import Config
 
 
 def _setup_outer_middlewares(dispatcher: Dispatcher, config: Config) -> None:

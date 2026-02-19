@@ -4,9 +4,9 @@ from aiogram import Router
 
 from aiogram.utils.i18n import gettext as _
 
-from tgbot.core.query.help_article import get_help_articles
-from tgbot.core.query.query import DistributionQuery
-from tgbot.core.query.exceptions import DistributionParserException
+from tgbot.query.help_article import get_help_articles
+from tgbot.query import DistributionQuery
+from tgbot.query.exceptions import DistributionParserException
 
 from tgbot.misc import callback_factory
 

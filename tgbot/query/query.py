@@ -1,5 +1,4 @@
-from tgbot.core.query.parser import DistributionQueryParser, DistributionQueryData
-from tgbot.misc.logger import logger
+from tgbot.query.parser import DistributionQueryParser, DistributionQueryData
 
 
 class DistributionQuery:

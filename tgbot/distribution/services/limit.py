@@ -1,5 +1,5 @@
-from tgbot.core.distribution.interfaces import ILimitService, ICacheService
-from tgbot.core.distribution.exceptions import LimitChoiceException
+from tgbot.distribution.interfaces import ILimitService, ICacheService
+from tgbot.distribution.exceptions import LimitChoiceException
 
 from aiogram.utils.i18n import gettext as _
 

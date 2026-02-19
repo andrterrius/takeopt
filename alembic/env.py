@@ -6,7 +6,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
-from tgbot.config import PostgresConfig
+from tgbot.core.config import PostgresConfig
 from tgbot.db.models import Base
 
 # this is the Alembic Config object, which provides

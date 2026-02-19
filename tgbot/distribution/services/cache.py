@@ -1,6 +1,6 @@
 from typing import Optional
 from redis.asyncio import Redis
-from tgbot.core.distribution.interfaces import ICacheService
+from tgbot.distribution.interfaces import ICacheService
 
 
 class RedisCacheService(ICacheService):

@@ -1,6 +1,6 @@
 from aiogram import Bot, Dispatcher
 
-from tgbot.config import Config
+from tgbot.core.config import Config
 from tgbot.misc.logger import logger
 from tgbot.services import broadcaster
 

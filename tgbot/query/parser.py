@@ -1,9 +1,8 @@
 import re
-from tgbot.config import DistributionConfig
+from tgbot.core.config import DistributionConfig
 from tgbot.db.models import DistributionRange
-from tgbot.core.query.exceptions import DistributionParserException
+from tgbot.query.exceptions import DistributionParserException
 from dataclasses import dataclass
-from tgbot.misc.logger import logger
 from aiogram.utils.i18n import gettext as _
 
 

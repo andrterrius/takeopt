@@ -1,5 +1,5 @@
-from tgbot.core.distribution.interfaces import IThrottlingService, ICacheService
-from tgbot.core.distribution.exceptions import ThrottlingChoiceException
+from tgbot.distribution.interfaces import IThrottlingService, ICacheService
+from tgbot.distribution.exceptions import ThrottlingChoiceException
 
 from aiogram.utils.i18n import gettext as _
 

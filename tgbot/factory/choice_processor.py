@@ -1,9 +1,9 @@
 from redis.asyncio import Redis
 from tgbot.db.repositories.repository import Repository
-from tgbot.core.distribution.choice_processor import ChoiceProcessor
-from tgbot.core.distribution.services.cache_service import RedisCacheService
-from tgbot.core.distribution.services.throttling_service import ThrottlingService
-from tgbot.core.distribution.services.limit_service import LimitService
+from tgbot.distribution.choice_processor import ChoiceProcessor
+from tgbot.distribution.services import RedisCacheService
+from tgbot.distribution.services import ThrottlingService
+from tgbot.distribution.services import LimitService
 
 
 class ChoiceProcessorFactory:
