@@ -71,12 +71,10 @@ The project structure follows this architecture:
 │   └───ru (Russian translations)
 │       └───LC_MESSAGES
 └───tgbot
-    ├───core (core functions)
-    │   ├───distribution (core distribution functions)
-    │   │   └───services (distribution processing services)
-    │   └───query (distribution creation query functions)
+    ├───distribution (core distribution functions)
+    │   └───services (distribution processing services)
+    │───query (distribution creation query functions)
     │
-    │ 
     ├───db (database)
     │   ├───models (database models)
     │   │   └───mixins (database mixins)
@@ -103,6 +101,8 @@ The project structure follows this architecture:
 ```
 ### Localization  📝
 **The bot's structure includes the capability to add new localizations for texts. Russian is set as the default language in the dispatcher middleware.**
+
+Each time the container is built, all translations are automatically compiled.
 
 Updating and extracting new texts added to the source code and saving to messages.pot:
 

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-02-15 01:19+0300\n"
+"POT-Creation-Date: 2026-02-19 21:05+0300\n"
 "PO-Revision-Date: 2025-11-06 19:07+0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: ru\n"
@@ -19,105 +19,17 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
-#: tgbot/core/distribution/choice_processor.py:50
+#: tgbot/distribution/choice_processor.py:49
 msgid "Этот вариант обрабатывается, попробуй еще через несколько секунд!"
 msgstr ""
 
-#: tgbot/core/distribution/choice_processor.py:134
-#: tgbot/core/distribution/services/throttling_service.py:21
+#: tgbot/distribution/choice_processor.py:133
+#: tgbot/distribution/services/throttling.py:21
 msgid "Подожди, не так быстро, обрабатывается твой предыдущий запрос..."
 msgstr ""
 
-#: tgbot/core/distribution/services/limit_service.py:30
+#: tgbot/distribution/services/limit.py:30
 msgid "Ты уже выбрал допустимое количество вариантов!"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:16
-msgid "❌ Произошла ошибка!"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:28
-msgid "❓ Краткая справка по использованию бота"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:29
-msgid ""
-"Для создания распределения нужно ввести в строку запроса число вариантов "
-"или x y +z,"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:37 tgbot/core/query/help_article.py:46
-#: tgbot/core/query/help_article.py:56 tgbot/core/query/help_article.py:66
-msgid "ㅤ"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:38
-msgid "где x это начало диапазона, y - конец"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:48
-msgid "z - количество доступных выборов для 1 человека"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:58
-msgid "z по умолчанию - это 1 и ее можно не вводить это значит"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:68
-msgid "что по умолчанию можно будет выбрать только 1 вариант"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:76
-msgid "Пример создания простого распределения"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:77
-#, python-brace-format
-msgid ""
-"{bot_username} 50 - создаст распределение вариантов от 1 до 50, где можно"
-" выбрать только 1"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:85
-msgid "Пример создания распределения по диапазону"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:87
-#, python-brace-format
-msgid ""
-"{bot_username} 1 50 - создаст распределение вариантов от 1 до 50, где "
-"можно выбрать только 1"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:96
-msgid "Пример создания распределения с несколькими выборами"
-msgstr ""
-
-#: tgbot/core/query/help_article.py:98
-#, python-brace-format
-msgid ""
-"{bot_username} 10 50 +2 - создаст распределение вариантов от 10 до 50, "
-"где можно выбрать уже 2 варианта"
-msgstr ""
-
-#: tgbot/core/query/parser.py:43
-msgid "количество вариантов должно быть больше 1"
-msgstr ""
-
-#: tgbot/core/query/parser.py:45
-msgid "начальное значение диапазона x должно быть меньше конечного y"
-msgstr ""
-
-#: tgbot/core/query/parser.py:50
-#, python-brace-format
-msgid "максимальное количество выборов - {max_choices}"
-msgstr ""
-
-#: tgbot/core/query/parser.py:73
-#, python-brace-format
-msgid ""
-"количество выборов (+{count_choices}) не может превышать размер диапазона"
-" ({range_size})"
 msgstr ""
 
 #: tgbot/handlers/users/distributions.py:43
@@ -213,6 +125,94 @@ msgstr ""
 msgid ""
 "Привет, бот работает в инлайн режиме. Для использования пропиши "
 "{bot_username} в любом чате/канале или нажми на кнопку ниже"
+msgstr ""
+
+#: tgbot/query/help_article.py:16
+msgid "❌ Произошла ошибка!"
+msgstr ""
+
+#: tgbot/query/help_article.py:28
+msgid "❓ Краткая справка по использованию бота"
+msgstr ""
+
+#: tgbot/query/help_article.py:29
+msgid ""
+"Для создания распределения нужно ввести в строку запроса число вариантов "
+"или x y +z,"
+msgstr ""
+
+#: tgbot/query/help_article.py:37 tgbot/query/help_article.py:46
+#: tgbot/query/help_article.py:56 tgbot/query/help_article.py:66
+msgid "ㅤ"
+msgstr ""
+
+#: tgbot/query/help_article.py:38
+msgid "где x это начало диапазона, y - конец"
+msgstr ""
+
+#: tgbot/query/help_article.py:48
+msgid "z - количество доступных выборов для 1 человека"
+msgstr ""
+
+#: tgbot/query/help_article.py:58
+msgid "z по умолчанию - это 1 и ее можно не вводить это значит"
+msgstr ""
+
+#: tgbot/query/help_article.py:68
+msgid "что по умолчанию можно будет выбрать только 1 вариант"
+msgstr ""
+
+#: tgbot/query/help_article.py:76
+msgid "Пример создания простого распределения"
+msgstr ""
+
+#: tgbot/query/help_article.py:77
+#, python-brace-format
+msgid ""
+"{bot_username} 50 - создаст распределение вариантов от 1 до 50, где можно"
+" выбрать только 1"
+msgstr ""
+
+#: tgbot/query/help_article.py:85
+msgid "Пример создания распределения по диапазону"
+msgstr ""
+
+#: tgbot/query/help_article.py:87
+#, python-brace-format
+msgid ""
+"{bot_username} 1 50 - создаст распределение вариантов от 1 до 50, где "
+"можно выбрать только 1"
+msgstr ""
+
+#: tgbot/query/help_article.py:96
+msgid "Пример создания распределения с несколькими выборами"
+msgstr ""
+
+#: tgbot/query/help_article.py:98
+#, python-brace-format
+msgid ""
+"{bot_username} 10 50 +2 - создаст распределение вариантов от 10 до 50, "
+"где можно выбрать уже 2 варианта"
+msgstr ""
+
+#: tgbot/query/parser.py:42
+msgid "количество вариантов должно быть больше 1"
+msgstr ""
+
+#: tgbot/query/parser.py:44
+msgid "начальное значение диапазона x должно быть меньше конечного y"
+msgstr ""
+
+#: tgbot/query/parser.py:49
+#, python-brace-format
+msgid "максимальное количество выборов - {max_choices}"
+msgstr ""
+
+#: tgbot/query/parser.py:72
+#, python-brace-format
+msgid ""
+"количество выборов (+{count_choices}) не может превышать размер диапазона"
+" ({range_size})"
 msgstr ""
 
 #~ msgid "создание распределения вариантов"
