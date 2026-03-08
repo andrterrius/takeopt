@@ -24,11 +24,11 @@ class DBUserMiddleware(BaseMiddleware):
         event = cast(Update, event)
         aiogram_user: User = data["event_from_user"]
         repo: Repository = data["repo"]
-        user = await repo.users.get(user_id=aiogram_user.id)
-
-        if user is None:
-            user = DBUser.from_aiogram(aiogram_user)
-            instance = await repo.users.save_user(user)
+        user = await repo.users.get_or_update_user(
+            user_id=aiogram_user.id,
+            name=aiogram_user.full_name,
+            username=aiogram_user.username
+        )
 
         data["db_user"] = user
 

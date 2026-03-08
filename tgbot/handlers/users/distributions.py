@@ -45,6 +45,8 @@ async def bot_start_with_deeplink(message: Message, command: CommandStart, repo:
                 answer_text = _("Список занятых вариантов:")
                 for choice in list_choices:
                     user_text = await get_telegram_username(message.bot, choice.user_id)
+                    if user_text.isdigit():
+                        user_text = f"{('@' + choice.user.username) if choice.user.username else choice.user.name} ({choice.user_id})"
                     answer_text += f"\n{choice.button_index} - {user_text}"
 
                 return await message.answer(answer_text)

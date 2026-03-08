@@ -23,4 +23,4 @@ class DBChoice(TimestampMixin, Base):
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey('users.id'))
     active = mapped_column(Boolean, default=True)
 
-    user: Mapped["DBUser"] = relationship("DBUser", back_populates="choices")
+    user: Mapped["DBUser"] = relationship("DBUser", back_populates="choices", lazy="selectin")
