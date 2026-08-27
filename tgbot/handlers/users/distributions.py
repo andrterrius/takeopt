@@ -133,8 +133,7 @@ async def callbacks_get_list_my_choices(call: CallbackQuery, callback_data: call
 
 @distributions_router.callback_query(callback_factory.GetHelp.filter())
 async def callbacks_get_help(call: CallbackQuery):
-    return await call.answer(_("Для выбора варианта жми 🟢\n"
-                               "\n🟢 - свободный вариант"
-                               "\n🔴 - занятый вариант (для отмены своего занятого варианта нужно 2 раза нажать на свой вариант)"
-                               "\n👤 - список твоих вариантов"
-                               "\n📄 - список занятых вариантов"), show_alert=True)
+    return await call.answer(_("🟢 свободно, жми для выбора\n"
+                               "🔴 занято (свой: ещё раз — отмена)\n"
+                               "👤 твои варианты\n"
+                               "📄 список занятых"), show_alert=True)

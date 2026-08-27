@@ -51,6 +51,7 @@ A Telegram bot for convenient distribution of variants, project topics, and assi
     REDIS_USE_REDIS=True
     
     DISTRIBUTION_MAX_CHOICES=97
+    DISTRIBUTION_BUTTONS_PER_ROW=5
    ```
 
 4. **Build and start the project**

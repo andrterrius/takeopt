@@ -1,14 +1,26 @@
 import asyncio
+from collections.abc import Sequence
 
 from cachetools import LRUCache
 
-from aiogram.types import CallbackQuery
-from aiogram.utils.keyboard import InlineKeyboardBuilder, InlineKeyboardButton
+from aiogram.enums import ButtonStyle
 from aiogram.exceptions import TelegramRetryAfter
+from aiogram.types import (
+    CallbackQuery,
+    InputRichBlockButtons,
+    InputRichBlockParagraph,
+    InputRichMessage,
+    RichMessageButton,
+    RichTextCustomEmoji,
+)
+from tgbot.core.config import DistributionConfig
 from tgbot.db.repositories.repository import Repository
 from tgbot.misc import callback_factory
 
 from tgbot.misc.logger import logger
+
+DEFAULT_DISTRIBUTION_TEXT = "❓- основная информация"
+
 
 class DistributionLockManager:
     """Класс с asyncio блокировщиками, чтобы предотвратить race condition
@@ -29,7 +41,7 @@ class DistributionLockManager:
 
 
 class DistributionKeyboardUpdater:
-    """Класс обновления клавиатуры с
+    """Класс обновления rich-сообщения с кнопками внутри поста
     """
 
     MAX_RETRIES = 3
@@ -59,26 +71,21 @@ class DistributionKeyboardUpdater:
                     distribution_id=distribution_id
                 )
 
-                keyboard = cls._build_keyboard(
+                rich_message = cls._build_rich_message(
                     distribution_id=distribution_id,
                     distribution_deeplink=distribution_deeplink,
                     choices=current_choices,
                     range_start=info_distribution.range_data.start,
                     range_end=info_distribution.range_data.end,
-                    choiced_index=choiced_index
+                    choiced_index=choiced_index,
+                    text=text or DEFAULT_DISTRIBUTION_TEXT,
                 )
 
-                if text:
-                    await call.bot.edit_message_text(
-                        text=text,
-                        reply_markup=keyboard.as_markup(),
-                        inline_message_id=call.inline_message_id
-                    )
-                else:
-                    await call.bot.edit_message_reply_markup(
-                        reply_markup=keyboard.as_markup(),
-                        inline_message_id=call.inline_message_id
-                    )
+                await call.bot.edit_message_text(
+                    rich_message=rich_message,
+                    inline_message_id=call.inline_message_id,
+                    parse_mode=None,
+                )
                 return True
 
             except TelegramRetryAfter as e:
@@ -90,49 +97,89 @@ class DistributionKeyboardUpdater:
                              f"\nПопытка {retry_count+1}")
                 await asyncio.sleep(e.retry_after)
 
-                return await cls.update_distribution_keyboard(call, repo, distribution_id, choiced_index, text, retry_count=retry_count+1)
+                return await cls.update_distribution_keyboard(
+                    call,
+                    repo,
+                    distribution_id,
+                    distribution_deeplink,
+                    choiced_index,
+                    text,
+                    retry_count=retry_count + 1,
+                )
 
             except Exception as e:
                 logger.error(f"Ошибка обновления клавиатуры {distribution_id}: {e}")
                 return False
 
     @staticmethod
-    def _build_keyboard(
+    def _button_rows(
+            buttons: Sequence[RichMessageButton],
+            per_row: int,
+    ) -> list[InputRichBlockButtons]:
+        return [
+            InputRichBlockButtons(buttons=list(buttons[index:index + per_row]), align="center")
+            for index in range(0, len(buttons), per_row)
+        ]
+
+    @classmethod
+    def _build_rich_message(
+            cls,
             distribution_id: int,
             distribution_deeplink: str,
             choices: set[int],
             range_start: int,
             range_end: int,
-            choiced_index: int | None = None
-    ) -> InlineKeyboardBuilder:
-        """Генерируем клавиатуру"""
-        builder = InlineKeyboardBuilder()
-
+            choiced_index: int | None = None,
+            text: str = DEFAULT_DISTRIBUTION_TEXT,
+    ) -> InputRichMessage:
+        """Собираем rich-сообщение с кнопками внутри поста"""
         display_choices = choices | ({choiced_index} if choiced_index else set())
 
         auxiliary_buttons = [
-            InlineKeyboardButton(text="❓", callback_data=callback_factory.GetHelp().pack()),
-            InlineKeyboardButton(text="📄", url=distribution_deeplink),
-            InlineKeyboardButton(text="👤", callback_data=callback_factory.GetMyDistributionChoices(
-                distribution_id=distribution_id).pack())
+            RichMessageButton(
+                text=RichTextCustomEmoji(
+                    custom_emoji_id="5436113877181941026",
+                    alternative_text="❓",
+                ),
+                style=ButtonStyle.PRIMARY,
+                callback_data=callback_factory.GetHelp().pack(),
+            ),
+            RichMessageButton(
+                text="📄",
+                style=ButtonStyle.PRIMARY,
+                url=distribution_deeplink,
+            ),
+            RichMessageButton(
+                text="👤",
+                style=ButtonStyle.PRIMARY,
+                callback_data=callback_factory.GetMyDistributionChoices(
+                    distribution_id=distribution_id
+                ).pack(),
+            ),
         ]
 
-
-
-        builder.row(*auxiliary_buttons)
-
-        #range_end хранится в базе включительно, поэтому делаем +1
-        for choice_index in range(range_start, range_end+1):
+        choice_buttons = []
+        # range_end хранится в базе включительно, поэтому делаем +1
+        for choice_index in range(range_start, range_end + 1):
             is_taken = choice_index in display_choices
-            emoji = "🔴" if is_taken else "🟢"
-
-            builder.button(
-                text=f"{choice_index} {emoji}",
-                callback_data=callback_factory.MakeChoice(
-                    distribution_id=distribution_id,
-                    choiced_index=choice_index
+            choice_buttons.append(
+                RichMessageButton(
+                    text=f"{choice_index} {'🔴' if is_taken else '🟢'}",
+                    style=ButtonStyle.DANGER if is_taken else ButtonStyle.SUCCESS,
+                    callback_data=callback_factory.MakeChoice(
+                        distribution_id=distribution_id,
+                        choiced_index=choice_index,
+                    ).pack(),
                 )
             )
 
-        builder.adjust(len(auxiliary_buttons), 5)
-        return builder
+        buttons_per_row = DistributionConfig().buttons_per_row
+        if len(choice_buttons) >= 100:
+            buttons_per_row = min(buttons_per_row, 4)
+
+        blocks = [
+            InputRichBlockParagraph(text=text),
+            *cls._button_rows(auxiliary_buttons, len(auxiliary_buttons)),
+            *cls._button_rows(choice_buttons, buttons_per_row),
+        ]
+        return InputRichMessage(blocks=blocks)

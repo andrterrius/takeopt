@@ -1,5 +1,13 @@
-from aiogram.types import InlineQuery, InlineQueryResultArticle, InputTextMessageContent
-from aiogram.utils.keyboard import InlineKeyboardBuilder
+from aiogram.enums import ButtonStyle
+from aiogram.types import (
+    InlineQuery,
+    InlineQueryResultArticle,
+    InputRichBlockButtons,
+    InputRichBlockParagraph,
+    InputRichMessage,
+    InputRichMessageContent,
+    RichMessageButton,
+)
 from aiogram import Router
 
 from aiogram.utils.i18n import gettext as _
@@ -23,11 +31,6 @@ async def parse_inline_query(iq: InlineQuery) -> None:
         distribution_query = DistributionQuery(text_query)
         distribution_data = distribution_query.data
 
-        builder = InlineKeyboardBuilder()
-        builder.button(text=_("Запустить распределение ✅"),
-                       callback_data=callback_factory.CreateDistribution(query=distribution_query.get_pretty_query(),
-                                                                         owner=iq.from_user.id))
-
         articles = [InlineQueryResultArticle(
             id=text_query,
             title=_("✅ Создать распределение вариантов (жми)"),
@@ -37,14 +40,32 @@ async def parse_inline_query(iq: InlineQuery) -> None:
                 range_end=distribution_data.range_data.end,
                 count_choices=distribution_data.count_choices
             ),
-            reply_markup=builder.as_markup(),
-            input_message_content=InputTextMessageContent(
-                message_text=_("Распределение {count_options} вариантов с возможностью выбора {count_choices} вариантов").format(
-                    count_options=distribution_data.range_data.end - distribution_data.range_data.start + 1,
-                    count_choices=distribution_data.count_choices
-                ),
-                parse_mode="HTML",
-                disable_web_page_preview=True
+            input_message_content=InputRichMessageContent(
+                rich_message=InputRichMessage(
+                    blocks=[
+                        InputRichBlockParagraph(
+                            text=_(
+                                "Распределение {count_options} вариантов с возможностью выбора {count_choices} вариантов"
+                            ).format(
+                                count_options=distribution_data.range_data.end - distribution_data.range_data.start + 1,
+                                count_choices=distribution_data.count_choices
+                            )
+                        ),
+                        InputRichBlockButtons(
+                            buttons=[
+                                RichMessageButton(
+                                    text=_("Запустить распределение ✅"),
+                                    style=ButtonStyle.SUCCESS,
+                                    callback_data=callback_factory.CreateDistribution(
+                                        query=distribution_query.get_pretty_query(),
+                                        owner=iq.from_user.id
+                                    ).pack(),
+                                )
+                            ],
+                            align="center",
+                        ),
+                    ]
+                )
             )
         )]
         await iq.answer(articles, cache_time=1)

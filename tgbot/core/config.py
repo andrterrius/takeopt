@@ -1,4 +1,4 @@
-from pydantic import BaseModel, SecretStr
+from pydantic import BaseModel, Field, SecretStr
 from pydantic_settings import BaseSettings as _BaseSettings
 from pydantic_settings import SettingsConfigDict
 from sqlalchemy import URL
@@ -47,6 +47,7 @@ class RedisConfig(BaseSettings, env_prefix="REDIS_"):
 
 class DistributionConfig(BaseSettings, env_prefix="DISTRIBUTION_"):
     max_choices: int
+    buttons_per_row: int = Field(default=5, ge=1, le=8)
 
 
 class Config(BaseModel):

@@ -48,6 +48,7 @@
     REDIS_USE_REDIS=True
     
     DISTRIBUTION_MAX_CHOICES=97
+    DISTRIBUTION_BUTTONS_PER_ROW=5
    ```
 
 4. **Запустите сборку проекта**
